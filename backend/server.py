@@ -3,10 +3,10 @@ import random
 import string
 from pathlib import Path
 from datetime import datetime
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='../frontend', static_url_path='')
 CORS(app)
 
 DB_PATH = Path("database.json")
@@ -60,7 +60,7 @@ def add_transaction(user, t_type, amount):
 
 @app.route('/')
 def home():
-    return "Backend is running! Use the Frontend at http://localhost:8000"
+    return send_from_directory(app.static_folder, 'index.html')
 
 @app.route('/api/login', methods=['POST'])
 def login():
