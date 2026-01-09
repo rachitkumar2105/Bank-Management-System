@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Management System</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="app-container">
+
+        <!-- Auth Section -->
+        <div id="auth-section" class="fade-in">
+            <header class="auth-header">
+                <h1>🏛 Bank Management System</h1>
+                <p>Secure banking with OTP, dashboard, admin panel, and more.</p>
+            </header>
+
+            <div class="auth-forms">
+                <!-- Login Form -->
+                <div class="card auth-card">
+                    <h2>🔐 Login</h2>
+                    <form id="login-form">
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="login-email" required placeholder="admin@bank.com">
+                        </div>
+                        <div class="form-group">
+                            <label>PIN</label>
+                            <div class="password-wrapper">
+                                <input type="password" id="login-pin" required placeholder="****">
+                                <span class="toggle-password" onclick="togglePassword('login-pin')">👁</span>
+                            </div>
+                        </div>
+
+                        <!-- OTP Section (Hidden initially) -->
+                        <div id="otp-group" class="form-group hidden fade-in">
+                            <label style="color: #7A5CFA; font-weight: bold;">Enter OTP Sent to Screen</label>
+                            <input type="text" id="login-otp" placeholder="Enter 6-digit OTP">
+                        </div>
+
+                        <button type="submit" id="login-btn" class="btn-primary">Send OTP</button>
+                        <!-- Simplified flow, direct login for now or simulated OTP -->
+                    </form>
+                </div>
+
+                <!-- Register Form -->
+                <div class="card auth-card">
+                    <h2>📝 Register</h2>
+                    <form id="register-form">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="reg-name" required>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col">
+                                    <label>Age</label>
+                                    <input type="number" id="reg-age" min="18" required value="18">
+                                </div>
+                                <div class="col">
+                                    <label>New PIN</label>
+                                    <input type="password" id="reg-pin" required maxlength="4" placeholder="4 digits">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>New Email</label>
+                            <input type="email" id="reg-email" required>
+                        </div>
+                        <button type="submit" class="btn-primary">Create Account</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Section -->
+        <div id="dashboard-section" class="hidden fade-in">
+            <div class="sidebar">
+                <h3>Menu</h3>
+                <nav>
+                    <button class="nav-btn active" onclick="showPage('dashboard')">Dashboard</button>
+                    <button class="nav-btn" onclick="showPage('deposit')">Deposit</button>
+                    <button class="nav-btn" onclick="showPage('withdraw')">Withdraw</button>
+                    <button class="nav-btn" onclick="showPage('history')">History</button>
+                    <button class="nav-btn" onclick="showPage('profile')">Profile</button>
+                    <!-- Admin button removed from here, admin gets their own separate portal -->
+                    <button class="nav-btn logout" onclick="logout()">Logout</button>
+                </nav>
+            </div>
+
+            <div class="main-content">
+                <header class="top-bar">
+                    <h2 id="page-title">Dashboard</h2>
+                    <div class="user-info">
+                        <span id="user-name-display">Welcome User</span>
+                    </div>
+                </header>
+
+                <div id="content-area">
+                    <!-- Dashboard Home -->
+                    <div id="page-dashboard" class="page-view">
+                        <div class="stats-grid">
+                            <div class="card stat-card">
+                                <h3>Balance</h3>
+                                <p class="stat-value" id="dash-balance">₹0</p>
+                            </div>
+                            <div class="card stat-card">
+                                <h3>Total Deposits</h3>
+                                <p class="stat-value" id="dash-deposits">₹0</p>
+                            </div>
+                            <div class="card stat-card">
+                                <h3>Total Withdrawals</h3>
+                                <p class="stat-value" id="dash-withdrawals">₹0</p>
+                            </div>
+                        </div>
+                        <div class="card chart-card">
+                            <h3>Recent Activity</h3>
+                            <div id="activity-list">No transactions yet.</div>
+                        </div>
+                    </div>
+
+                    <!-- Deposit -->
+                    <div id="page-deposit" class="page-view hidden">
+                        <div class="card action-card">
+                            <h3>💰 Deposit Money</h3>
+                            <div class="form-group">
+                                <label>Amount to deposit</label>
+                                <input type="number" id="deposit-amount" min="1">
+                            </div>
+                            <button class="btn-primary" onclick="performDeposit()">Deposit</button>
+                        </div>
+                    </div>
+
+                    <!-- Withdraw -->
+                    <div id="page-withdraw" class="page-view hidden">
+                        <div class="card action-card">
+                            <h3>💸 Withdraw Money</h3>
+                            <div class="form-group">
+                                <label>Amount to withdraw</label>
+                                <input type="number" id="withdraw-amount" min="1">
+                            </div>
+                            <div class="form-group">
+                                <label>Confirm PIN</label>
+                                <input type="password" id="withdraw-pin">
+                            </div>
+                            <button class="btn-danger" onclick="performWithdraw()">Withdraw</button>
+                        </div>
+                    </div>
+
+                    <!-- History -->
+                    <div id="page-history" class="page-view hidden">
+                        <div class="card table-card">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <h3>📜 Transaction History</h3>
+                                <button class="btn-primary" style="width: auto; padding: 5px 15px;"
+                                    onclick="downloadReceipt()">Result / Download</button>
+                            </div>
+                            <table id="history-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Type</th>
+                                        <th>Amount</th>
+                                        <th>Bal. After</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Profile -->
+                    <div id="page-profile" class="page-view hidden">
+                        <div class="card profile-card">
+                            <h3>🙍 Your Profile</h3>
+                            <div class="profile-details-grid">
+                                <span class="label">Name:</span>
+                                <span class="value" id="prof-name"></span>
+
+                                <span class="label">Email:</span>
+                                <span class="value" id="prof-email"></span>
+
+                                <span class="label">Account No:</span>
+                                <span class="value" id="prof-acc"></span>
+
+                                <span class="label">Balance:</span>
+                                <span class="value" id="prof-bal"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Portal (Separate) -->
+        <div id="admin-portal" class="hidden fade-in" style="height: 100vh; display: flex; flex-direction: column;">
+            <header class="top-bar"
+                style="padding: 20px; background: var(--sidebar-bg); border-bottom: 1px solid var(--border-color);">
+                <h2>🛠 Admin Portal</h2>
+                <button class="nav-btn logout" onclick="logout()" style="width: auto;">Logout</button>
+            </header>
+            <div style="padding: 40px; overflow-y: auto;">
+                <!-- Admin Charts -->
+                <div class="stats-grid" style="margin-bottom: 30px;">
+                    <div class="card">
+                        <h3>👥 User Status</h3>
+                        <canvas id="userChart"></canvas>
+                    </div>
+                    <div class="card">
+                        <h3>💰 Financial Overview</h3>
+                        <canvas id="financeChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>User Management</h3>
+                    <table id="admin-users-table" style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="border-bottom: 1px solid var(--border-color);">
+                                <th style="padding: 15px; text-align: left;">Name</th>
+                                <th style="padding: 15px; text-align: left;">Email / Account</th>
+                                <th style="padding: 15px; text-align: left;">Status</th>
+                                <th style="padding: 15px; text-align: left;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast hidden"></div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
