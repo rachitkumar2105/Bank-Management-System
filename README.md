@@ -1,116 +1,119 @@
-# 🏦 SmartBank - Bank Management System
+# 🏦 Bank Management System
 
-A secure, full-stack digital banking solution built with **Python (Flask)** and **Vanilla JavaScript**. This project demonstrates a comprehensive banking application with user accounts, financial transactions, and a powerful Admin Dashboard with analytics.
+A secure, full-stack digital banking solution developed as a Final Year Project. This application features a robust backend, responsive frontend, and a comprehensive Admin Dashboard with analytics.
+
+---
+
+## 🚀 Live Demo
+**[Deploy on Render](https://render.com)** (Follow deployment steps below)
 
 ---
 
 ## ✨ Features
 
-### 👤 User Panel
-*   **Secure Authentication**: Login/Register with OTP verification (Simulated).
-*   **Dashboard**: Real-time balance updates and transaction summary.
-*   **Banking Operations**: 
-    *   **Deposit**: Add funds securely.
-    *   **Withdraw**: Withdraw funds with PIN verification.
-    *   **Transfer**: (Ready for expansion).
-*   **Transaction History**: Detailed table of all account activities.
-*   **Download Statement**: Export transaction history (Text-based).
-*   **Profile**: View account details (formatted with CSS Grid).
+### 👤 Customer Banking Panel
+*   **Secure Authentication**: Login & Register with OTP (Simulated).
+*   **Real-time Dashboard**: View Account Balance, Total Deposits, and Withdrawals.
+*   **Transactions**:
+    *   **Deposit Funds**: Securely add money to your account.
+    *   **Withdraw Funds**: PIN-protected withdrawals.
+*   **Passbook / History**: View detailed transaction logs.
+*   **Download Statement**: Export account statement as a text file.
+*   **Profile Manager**: View account details (Formatted with CSS Grid).
 
 ### 🛠 Admin Portal
-*   **Dedicated Login**: Secure access for administrators.
-*   **User Management**: View all users, **Suspend** or **Block** accounts effectively stopping their access.
-*   **Analytics Dashboard**: 
-    *   **User Stats**: Visual breakdown of Active vs Blocked users (Chart.js).
-    *   **Financials**: Overview of Total Deposits vs Withdrawals (Chart.js).
+*   **Dashboard Analytics**:
+    *   **User Status Chart**: Visual breakdown of Active/Blocked users.
+    *   **Financial Overview**: Interactive bar chart of Deposits vs. Withdrawals.
+*   **User Management**:
+    *   View all registered customers.
+    *   **Block/Suspend** users to restrict access immediately.
+    *   **Activate** users to restore access.
 
 ---
 
-## 🏗 Tech Stack
+## 🛠 Tech Stack
 
-*   **Backend**: Python, Flask, Gunicorn
-*   **Frontend**: HTML5, CSS3 (Dark Theme), JavaScript (Fetch API)
-*   **Database**: JSON-based flat file (`database.json`) for portability.
-*   **Visualization**: Chart.js
-*   **Deployment**: Docker
+*   **Frontend**: HTML5, CSS3 (Modern Dark Theme), Vanilla JavaScript.
+*   **Backend**: Python, Flask, Gunicorn.
+*   **Charts**: Chart.js (Data visualization).
+*   **Database**: JSON-based flat file (`database.json`) - *No SQL setup required*.
+*   **Containerization**: Docker.
 
 ---
 
-## 🚀 Installation & Run Locally
+## � Installation & Setup
 
-### Prerequisites
-*   Python 3.8+ installed.
+### Option 1: Run Locally (Python)
 
-### Steps
-1.  **Clone the repository**:
+1.  **Clone the Repository**
     ```bash
-    git clone <your-repo-url>
+    git clone https://github.com/your-username/Bank-Management-System.git
     cd "Bank Management System"
     ```
 
-2.  **Install Dependencies**:
+2.  **Install Dependencies**
     ```bash
     pip install -r requirements.txt
     ```
 
-3.  **Run the Application**:
+3.  **Start the Server**
     ```bash
     python backend/server.py
     ```
 
-4.  **Access the App**:
-    Open your browser and navigate to: `http://localhost:5000`
+4.  **Access the App**
+    Open [http://localhost:5000](http://localhost:5000) in your browser.
 
----
+### Option 2: Run with Docker
 
-## 🐳 Docker Support
-
-This project is containerized for easy deployment.
-
-1.  **Build the Image**:
+1.  **Build Image**
     ```bash
-    docker build -t bank-system .
+    docker build -t bank-app .
     ```
 
-2.  **Run the Container**:
+2.  **Run Container**
     ```bash
-    docker run -p 5000:5000 bank-system
+    docker run -p 5000:5000 bank-app
     ```
 
 ---
 
-## 🌐 API Endpoints
+## ☁️ Deployment Guide (Render)
 
-| Method | Endpoint | Description |
-| :--- | :--- | :--- |
-| `POST` | `/api/login` | Authenticates user (Standard/Admin) |
-| `POST` | `/api/register` | Creates a new customer account |
-| `POST` | `/api/deposit` | Adds funds to user account |
-| `POST` | `/api/withdraw` | Deducts funds (after PIN check) |
-| `GET` | `/api/admin/users` | Admin: List all users |
-| `POST` | `/api/admin/user-status` | Admin: Block/Suspend users |
-| `GET` | `/api/admin/stats` | Admin: Get analytics data |
+This project is optimized for deployment on [Render.com](https://render.com) using Docker.
+
+1.  **Push to GitHub**: ensure your repository is up to date.
+2.  **Create Web Service**: Go to Render Dashboard > New Web Service.
+3.  **Connect Repo**: Select your `Bank-Management-System` repository.
+4.  **Select Runtime**: Choose **Docker** (Important!).
+5.  **Deploy**: Click "Create Web Service". Render will automatically build the `Dockerfile`.
 
 ---
 
-## 🔑 Default Credentials
+## 🔑 Default Admin Credentials
 
-### Admin Account
+Use these credentials to access the Admin Portal:
+
 *   **Email**: `admin@login.com`
 *   **Password**: `admin@123`
 
-### Demo User
-*   Create your own account via the **Register** page!
-
 ---
 
-## ☁️ Deployment (Render)
+## 📂 Project Structure
 
-1.  Push code to **GitHub**.
-2.  Create a **New Web Service** on Render.
-3.  Select **"Docker"** as the Runtime.
-4.  Deploy!
+```
+Bank Management System/
+├── backend/
+│   └── server.py        # Flask API & Server Logic
+├── frontend/
+│   ├── index.html       # Single Page Application HTML
+│   ├── style.css        # Custom CSS Styles
+│   └── script.js        # Frontend Logic & API calls
+├── Dockerfile           # Docker configuration
+├── requirements.txt     # Python dependencies
+└── database.json        # Data storage (Created automatically)
+```
 
 ---
-
-*Developed for 4th Year Final Project.*
+*Developed by Rachit Kumar Singh*
