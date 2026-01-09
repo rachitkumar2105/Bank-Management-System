@@ -15,7 +15,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # but for simplicity in this project structure, we can copy the relevant folders.
 COPY backend/ ./backend/
 COPY frontend/ ./frontend/
-COPY database.json .
+# COPY database.json . (Removed: Database is auto-created or persistent volume used)
 
 # Make port 5000 available to the world outside this container
 EXPOSE 5000
